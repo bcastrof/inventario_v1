@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -177,6 +178,79 @@ public class Impresoras {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se ha podido dar de alta el equipo\n" + ex.getMessage());
             return false;
+        }
+    }
+
+    public static boolean borrarImpresora(String eji) {
+        Conexion.conectar();
+        String sql = "delete from impresoras where EJ_IMPRESORA=?";
+
+        try {
+            PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
+            ps.setString(1, eji);
+            ps.execute();
+
+            ps.close();
+            Conexion.desconectar();
+
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Impresoras.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean editarImpresora(String eji) {
+        Conexion.conectar();
+
+        String sql = "update impresoras set EJ_IMPRESORA=?, MARCA=?, MODELO=?, TIPO=?, UBICACION=?, DESCRIPCION=?"
+                + "WHERE EJ_IMPRESORA=?";
+
+        try {
+            PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
+            ps.setString(1, ej);
+            ps.setString(2, marca);
+            ps.setString(3, modelo);
+            ps.setString(4, tipo);
+            ps.setString(5, ubicacion);
+            ps.setString(6, descripcion);
+            ps.setString(7, eji);
+
+            ps.executeUpdate();
+            ps.close();
+            Conexion.desconectar();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Impresoras.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public static void autoCompletarImpresora(javax.swing.JTextField impresoraJTextField) {
+
+        TextAutoCompleter equipoAutoComplet = new TextAutoCompleter(impresoraJTextField);
+
+        Conexion.conectar();
+
+        // Statement st;
+        CallableStatement cs;
+        ResultSet rs;
+
+        try {
+            // st = (Statement) Conexion.getConexion().createStatement();
+            cs = (CallableStatement) Conexion.getConexion().prepareCall("call listarImpresoras (?)");
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.execute();
+            // rs=st.executeQuery("select ej from pcs");
+            rs = (ResultSet) cs.getObject(1);
+            while (rs.next()) {
+
+                equipoAutoComplet.addItem(rs.getString("EJ_IMPRESORA"));
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se ha encontrado el equipo: " + ex.getMessage());
         }
     }
 
