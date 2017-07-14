@@ -47,7 +47,7 @@ public class Impresora extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tImpresoras = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tRepuestos = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         filtro = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         modelo = new javax.swing.JTextField();
@@ -98,6 +98,9 @@ public class Impresora extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tImpresorasMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tImpresorasMousePressed(evt);
+            }
         });
         jScrollPane1.setViewportView(tImpresoras);
         if (tImpresoras.getColumnModel().getColumnCount() > 0) {
@@ -106,26 +109,18 @@ public class Impresora extends javax.swing.JFrame {
             tImpresoras.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        tRepuestos.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
                 "REF. REPUESTO", "CANTIDAD"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tRepuestos);
-        if (tRepuestos.getColumnModel().getColumnCount() > 0) {
-            tRepuestos.getColumnModel().getColumn(0).setResizable(false);
-            tRepuestos.getColumnModel().getColumn(1).setResizable(false);
+        ));
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
         }
 
         jButton1.setText("ALTA");
@@ -193,7 +188,7 @@ public class Impresora extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 525, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -297,20 +292,20 @@ public class Impresora extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         bindingGroup.bind();
@@ -328,8 +323,8 @@ public class Impresora extends javax.swing.JFrame {
         modelo.setText(impresoras.get(index).getModelo());
         descripcion.setText(impresoras.get(index).getDescripcion());
         jComboBox1.setSelectedItem(impresoras.get(index).getTipo());
-
         listarRepuestos(ej.getText());
+
     }//GEN-LAST:event_tImpresorasMouseClicked
 
     private void filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarActionPerformed
@@ -375,6 +370,10 @@ public class Impresora extends javax.swing.JFrame {
             limpiar();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tImpresorasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tImpresorasMousePressed
+        //listarRepuestos(ej.getText());
+    }//GEN-LAST:event_tImpresorasMousePressed
 
     /**
      * @param args the command line arguments
@@ -436,11 +435,12 @@ public class Impresora extends javax.swing.JFrame {
     }
 
     private void listarRepuestos(String iRef) {
-        repus = (DefaultTableModel) tRepuestos.getModel();
+        repus = (DefaultTableModel) jTable1.getModel();
         repuestos = Repuestos.listarRepuestos(iRef);
         if (repus.getRowCount() > 0) {
             repus.setRowCount(0);
             repuestos.clear();
+            repuestos = Repuestos.listarRepuestos(iRef);
             repuestos.forEach((r) -> {
                 repus.insertRow(repus.getRowCount(), new Object[]{
                     r.getCd_repuesto(), r.getCantidad()
@@ -496,10 +496,10 @@ public class Impresora extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField marca;
     private javax.swing.JTextField modelo;
     private javax.swing.JTable tImpresoras;
-    private javax.swing.JTable tRepuestos;
     private javax.swing.JTextField ubicacion;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

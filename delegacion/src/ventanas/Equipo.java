@@ -94,7 +94,7 @@ public class Equipo extends javax.swing.JFrame {
 
         jLabel4.setText("MODELO");
 
-        jLabel6.setText("DESCRIPCION:");
+        jLabel6.setText("APLICACIONES:");
 
         jButton1.setText("ALTA");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

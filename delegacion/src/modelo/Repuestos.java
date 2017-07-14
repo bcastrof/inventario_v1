@@ -82,7 +82,7 @@ public class Repuestos {
             ResultSet rs = (ResultSet) cs.getObject(2);
             
             while(rs.next()){
-                Repuestos r = new Repuestos(rs.getString(1),rs.getString(2), rs.getString(3), rs.getInt(4));
+                Repuestos r = new Repuestos(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 repuestos.add(r);
             }
             cs.close();
