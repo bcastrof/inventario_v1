@@ -133,8 +133,8 @@ public class Funcionarios {
             ps.setString(3, user);
             ps.setString(4, xlnet);
             ps.setString(5, correo);
-            ps.setInt(6, planta);
-            ps.setInt(7, telefono);
+            ps.setInt(6, telefono);
+            ps.setInt(7, planta);
             ps.setString(8, equipo);
             ps.setString(9, impresora);
 
@@ -170,8 +170,8 @@ public class Funcionarios {
             ps.setString(3, this.user);
             ps.setString(4, xlnet);
             ps.setString(5, correo);
-            ps.setInt(6, planta);
-            ps.setInt(7, telefono);
+            ps.setInt(6, telefono);
+            ps.setInt(7, planta);
             ps.setString(8, equipo);
             ps.setString(9, impresora);
             ps.setString(10, user);
@@ -222,15 +222,15 @@ public class Funcionarios {
             ResultSet rs = (ResultSet) cs.getObject(1);
 
             while (rs.next()) {
-                f = new Funcionarios(rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6),
-                        rs.getInt(7),
-                        rs.getString(8),
-                        rs.getString(9));
+                f = new Funcionarios(rs.getString("APELLIDOS"),
+                        rs.getString("NOMBRE"),
+                        rs.getString("USUARIO"),
+                        rs.getString("XLNET"),
+                        rs.getString("CORREO"),
+                        rs.getInt("TELEFONO"),
+                        rs.getInt("PLANTA"),
+                        rs.getString("EJ_EQUIPO"),
+                        rs.getString("EJ_IMPRESORA"));
                 funcionarios.add(f);
             }
             cs.close();

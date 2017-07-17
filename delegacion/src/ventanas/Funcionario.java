@@ -337,12 +337,22 @@ public class Funcionario extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        Funcionarios f = new Funcionarios(apellidos.getText().toUpperCase(), nombre.getText().toUpperCase(), usuario.getText().toUpperCase(),
-                xlnet.getText().toUpperCase(), correo.getText().toUpperCase(), Integer.parseInt(planta.getText()), Integer.parseInt(telefono.getText()), equipo.getText().toUpperCase(), impresora.getText().toUpperCase()
+        Funcionarios f = new Funcionarios(apellidos.getText().toUpperCase(), 
+                nombre.getText().toUpperCase(), 
+                usuario.getText().toUpperCase(),
+                xlnet.getText().toUpperCase(), 
+                correo.getText().toUpperCase(), 
+                Integer.parseInt(planta.getText()), 
+                Integer.parseInt(telefono.getText()), 
+                equipo.getText().toUpperCase(), 
+                impresora.getText().toUpperCase()
+                
         );
         if (f.altaUsuarios() == true) {
             JOptionPane.showMessageDialog(null, "Usuario dado de alta correctamente", "Alta Usuario", JOptionPane.INFORMATION_MESSAGE);
             limpiar();
+        }else{
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -447,6 +457,7 @@ public class Funcionario extends javax.swing.JFrame {
         impresora.setText(t);
         jFiltro.setText(t);
         users.setRowCount(0);
+        usuarios.clear();
         listarUsuarios();
     }
 
