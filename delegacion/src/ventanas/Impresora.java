@@ -434,11 +434,11 @@ public class Impresora extends javax.swing.JFrame {
 
     private void listarRepuestos(String iRef) {
         repus = (DefaultTableModel) jTable1.getModel();
-        repuestos = Repuestos.listarRepuestos(iRef);
+        repuestos = Repuestos.listarRepuestosImpresora(iRef);
         if (repus.getRowCount() > 0) {
             repus.setRowCount(0);
             repuestos.clear();
-            repuestos = Repuestos.listarRepuestos(iRef);
+            repuestos = Repuestos.listarRepuestosImpresora(iRef);
             repuestos.forEach((r) -> {
                 repus.insertRow(repus.getRowCount(), new Object[]{
                     r.getCd_repuesto(), r.getCantidad()

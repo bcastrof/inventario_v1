@@ -5,17 +5,25 @@
  */
 package ventanas;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.Repuestos;
+
 /**
  *
  * @author bcastrof
  */
 public class Repuesto extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Repuesto
-     */
+    private List<Repuestos> repuestos;
+    private Repuestos repuesto;
+    private DefaultTableModel repus;
+
     public Repuesto() {
         initComponents();
+        listarRepuestos();
+        autocompletado();
     }
 
     /**
@@ -61,6 +69,11 @@ public class Repuesto extends javax.swing.JFrame {
                 "REFERENCIA", "MARCA", "COLOR", "CANTIDAD"
             }
         ));
+        tRepuestos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tRepuestosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tRepuestos);
         if (tRepuestos.getColumnModel().getColumnCount() > 0) {
             tRepuestos.getColumnModel().getColumn(0).setResizable(false);
@@ -70,12 +83,27 @@ public class Repuesto extends javax.swing.JFrame {
         }
 
         jButton1.setText("ALTA");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("EDITAR");
 
         jButton3.setText("BAJA");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("FILTRAR");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,6 +164,38 @@ public class Repuesto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Repuestos r = new Repuestos(referencia.getText(),
+                marca.getText(),
+                color.getText(),
+                Integer.parseInt(cantidad.getText()));
+
+        if (r.altaRepuesto() == true) {
+
+            JOptionPane.showMessageDialog(null, "EL REPUESTO HA SIDO DADO DE ALTA", "ALTA REPUESTO", JOptionPane.INFORMATION_MESSAGE);
+            limpiar();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tRepuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tRepuestosMouseClicked
+        repus = (DefaultTableModel) tRepuestos.getModel();
+        int index = tRepuestos.getSelectedRow();
+
+        referencia.setText(repuestos.get(index).getCd_repuesto());
+        marca.setText(repuestos.get(index).getMarca());
+        color.setText(repuestos.get(index).getColor());
+        cantidad.setText(Integer.toString(repuestos.get(index).getCantidad()));
+    }//GEN-LAST:event_tRepuestosMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Repuestos.borrarRepuesto(referencia.getText());
+        limpiar();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        recuperaRpuesto(referencia.getText());
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -169,6 +229,48 @@ public class Repuesto extends javax.swing.JFrame {
                 new Repuesto().setVisible(true);
             }
         });
+    }
+
+    private void listarRepuestos() {
+
+        repus = (DefaultTableModel) tRepuestos.getModel();
+        repuestos = Repuestos.todosLosRepuestos();
+
+        repuestos.forEach((r) -> {
+            repus.insertRow(repus.getRowCount(), new Object[]{
+                r.getCd_repuesto(), r.getMarca(), r.getColor(), r.getCantidad()
+            });
+        });
+    }
+
+    private void recuperaRpuesto(String cd_repuesto) {
+        repus.setRowCount(0);
+        repus = (DefaultTableModel) tRepuestos.getModel();
+        repuesto = Repuestos.recuperarRepuesto(cd_repuesto);
+
+        repus.insertRow(repus.getRowCount(), new Object[]{
+            repuesto.getCd_repuesto(), repuesto.getMarca(), repuesto.getColor(), repuesto.getCantidad()
+        });
+
+        repuestos.clear();
+        repuestos.add(repuesto);
+    }
+
+    public void limpiar() {
+        String t = "";
+
+        referencia.setText(t);
+        marca.setText(t);
+        color.setText(t);
+        cantidad.setText(t);
+
+        repuestos.clear();
+        repus.setRowCount(0);
+        listarRepuestos();
+    }
+
+    private void autocompletado() {
+        Repuestos.autoCompletarImpresora(referencia);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

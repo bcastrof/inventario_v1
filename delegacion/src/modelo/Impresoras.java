@@ -250,7 +250,7 @@ public class Impresoras {
             }
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se ha encontrado el equipo: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "No se ha encontrado la impresora: " + ex.getMessage());
         }
     }
 
