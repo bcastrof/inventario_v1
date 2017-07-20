@@ -148,8 +148,8 @@ public class Funcionarios {
             return false;
         }
     }
-    
-    public boolean modificarUsuario(String user){
+
+    public boolean modificarUsuario(String user) {
         Conexion.conectar();
         String sql = "update funcionarios set "
                 + "APELLIDOS=?, "
@@ -162,7 +162,7 @@ public class Funcionarios {
                 + "EJ_EQUIPO=?,"
                 + "EJ_IMPRESORA=?"
                 + "WHERE USUARIO=?";
-        
+
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
             ps.setString(1, apellidos);
@@ -175,38 +175,38 @@ public class Funcionarios {
             ps.setString(8, equipo);
             ps.setString(9, impresora);
             ps.setString(10, user);
-            
+
             ps.executeUpdate();
             ps.close();
             Conexion.desconectar();
-            
+
             return true;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Funcionarios.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
-    
-    public static boolean borrarUsuario(String usuario){
+
+    public static boolean borrarUsuario(String usuario) {
         Conexion.conectar();
         String sql = "delete from funcionarios where usuario=?";
-        
+
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
-            
+
             ps.setString(1, usuario);
             ps.execute();
             ps.close();
             Conexion.desconectar();
-            
+
             return true;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Funcionarios.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
+
     }
 
     public static List<Funcionarios> recuperarUsuarios() {
@@ -244,13 +244,50 @@ public class Funcionarios {
         }
     }
 
+    public static List<Funcionarios> recuperarUsuarios2(String ej) {
+        List<Funcionarios> funcionarios = new ArrayList<>();
+        Funcionarios f;
+        Conexion.conectar();
+        String sql = "Call recuperarUsuarios2 (?,?)";
+        try {
+            CallableStatement cs = Conexion.getConexion().prepareCall(sql);
+            cs.setString(1, ej);
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+            cs.execute();
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+                f = new Funcionarios(rs.getString("APELLIDOS"),
+                        rs.getString("NOMBRE"),
+                        rs.getString("USUARIO"),
+                        rs.getString("XLNET"),
+                        rs.getString("CORREO"),
+                        rs.getInt("TELEFONO"),
+                        rs.getInt("PLANTA"),
+                        rs.getString("EJ_EQUIPO"),
+                        rs.getString("EJ_IMPRESORA"));
+                funcionarios.add(f);
+            }
+            cs.close();
+            rs.close();
+            Conexion.desconectar();
+            return funcionarios;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Funcionarios.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     public static Funcionarios recuperarUsuario(String ej) {
         Conexion.conectar();
-        Funcionarios usuario;
+        Funcionarios usuario = null;
         String sql = "call recuperarUsuario(?,?,?,?,?,?,?,?,?,?)";
 
         try {
             CallableStatement cs = Conexion.getConexion().prepareCall(sql);
+
             cs.setString(1, ej);
             cs.registerOutParameter(2, OracleTypes.VARCHAR);
             cs.registerOutParameter(3, OracleTypes.VARCHAR);
@@ -277,9 +314,13 @@ public class Funcionarios {
             Conexion.desconectar();
 
             return usuario;
-
         } catch (SQLException ex) {
-            Logger.getLogger(Funcionarios.class.getName()).log(Level.SEVERE, null, ex);
+            if (ex.getSQLState().equalsIgnoreCase("72000")) {
+                recuperarUsuarios2(ej);
+            } else {
+                Logger.getLogger(Funcionarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             return null;
         }
     }
@@ -362,10 +403,11 @@ public class Funcionarios {
             while (rs.next()) {
 
                 equipoAutoComplet.addItem(rs.getString("USUARIO"));
+
             }
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se ha encontrado el equipo: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "No se ha encontrado el usuario: " + ex.getMessage());
         }
     }
 

@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import oracle.jdbc.OracleTypes;
-import oracle.jdbc.oracore.OracleType;
 
 /**
  *
@@ -26,6 +26,10 @@ public class Repuestos {
     private int cantidad;
 
     public Repuestos() {
+    }
+
+    public Repuestos(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public Repuestos(String cd_repuesto, String marca, String color, int cantidad) {
@@ -92,7 +96,25 @@ public class Repuestos {
         } catch (SQLException ex) {
             Logger.getLogger(Repuestos.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        }   
+    }
+    
+    public boolean modificarRepuesto(String ref){
+        Conexion.conectar();
+        String sql = "update repuestos set CANTIDAD = ? WHERE CD_REPUESTO= ?";
+        
+        try {
+            PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
+            ps.setInt(1, cantidad);
+            ps.setString(2, ref);
+            ps.executeUpdate();
+            ps.close();
+            Conexion.desconectar();
+            return  true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Repuestos.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        return true;
     }
 }
