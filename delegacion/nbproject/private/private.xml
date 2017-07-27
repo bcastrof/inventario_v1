@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/modelo/Repuestos.java</file>
-            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/ventanas/Equipo.java</file>
-            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/ventanas/Repuesto.java</file>
-            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/ventanas/Funcionario.java</file>
-            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/ventanas/Impresora.java</file>
+            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/ventanas/Tablas.java</file>
+            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/ventanas/Formularios.java</file>
+            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/modelo/Reportes.java</file>
             <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/modelo/Conexion.java</file>
-            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/modelo/Funcionarios.java</file>
-            <file>file:/D:/pogramacion/proyecto/RETO/inventario_v1/inventario_v1/delegacion/src/modelo/Impresoras.java</file>
         </group>
     </open-files>
 </project-private>
