@@ -395,7 +395,7 @@ public class Funcionarios {
 
         try {
             // st = (Statement) Conexion.getConexion().createStatement();
-            cs = (CallableStatement) Conexion.getConexion().prepareCall("call recuperarUsuarios (?)");
+            cs = (CallableStatement) Conexion.getConexion().prepareCall("call recuperarUsuariosSd (?)");
 
             cs.registerOutParameter(1, OracleTypes.CURSOR);
             cs.execute();

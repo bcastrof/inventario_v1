@@ -55,7 +55,7 @@ public class Equipo extends javax.swing.JFrame {
         filtro = new javax.swing.JTextField();
         buscar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("EQUIPOS");
 
         jLabel2.setText("EJ");

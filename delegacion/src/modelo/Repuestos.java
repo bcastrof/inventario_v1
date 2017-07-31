@@ -23,6 +23,7 @@ import java.util.logging.Logger;
  * @author bcastrof
  */
 public class Repuestos {
+
     private String cd_repuesto;
     private String marca;
     private String color;
@@ -73,62 +74,62 @@ public class Repuestos {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
-    
-    public static List<Repuestos> listarRepuestosImpresora(String iRef){
-        List <Repuestos> repuestos = new ArrayList<>();
+
+    public static List<Repuestos> listarRepuestosImpresora(String iRef) {
+        List<Repuestos> repuestos = new ArrayList<>();
         Conexion.conectar();
-        
+
         String sql = "call listarRepuestosImpresora (?,?)";
-        
+
         try {
             CallableStatement cs = Conexion.getConexion().prepareCall(sql);
             cs.setString(1, iRef);
             cs.registerOutParameter(2, OracleTypes.CURSOR);
             cs.execute();
-            
+
             ResultSet rs = (ResultSet) cs.getObject(2);
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Repuestos r = new Repuestos(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 repuestos.add(r);
             }
             cs.close();
             Conexion.desconectar();
-            return repuestos; 
-            
+            return repuestos;
+
         } catch (SQLException ex) {
             Logger.getLogger(Repuestos.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        }   
+        }
     }
-    
-    public static List<Repuestos>todosLosRepuestos(){
-        List <Repuestos> repuestos = new ArrayList<>();
+
+    public static List<Repuestos> todosLosRepuestos() {
+        List<Repuestos> repuestos = new ArrayList<>();
         Conexion.conectar();
         String sql = "call todosLosRepuestos(?)";
-        
+
         try {
             CallableStatement cs = Conexion.getConexion().prepareCall(sql);
             cs.registerOutParameter(1, OracleTypes.CURSOR);
             cs.execute();
-            
+
             ResultSet rs = (ResultSet) cs.getObject(1);
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Repuestos r = new Repuestos(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 repuestos.add(r);
             }
             cs.close();
             Conexion.desconectar();
-            
+
             return repuestos;
         } catch (SQLException ex) {
             Logger.getLogger(Repuestos.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
-    
-    public static Repuestos recuperarRepuesto(String cd_repuesto){
+
+    public static Repuestos recuperarRepuesto(String cd_repuesto) {
         Repuestos repuesto;
         Conexion.conectar();
         String sql = "call recuperarRepuesto (?,?,?,?,?)";
@@ -140,7 +141,7 @@ public class Repuestos {
             cs.registerOutParameter(4, OracleTypes.VARCHAR);
             cs.registerOutParameter(5, OracleTypes.INTEGER);
             cs.execute();
-            
+
             repuesto = new Repuestos(cs.getString(2), cs.getString(3), cs.getString(4), cs.getInt(5));
             return repuesto;
         } catch (SQLException ex) {
@@ -148,30 +149,53 @@ public class Repuestos {
         }
         return null;
     }
-    
-    public boolean modificarRepuesto(String ref){
+
+     public boolean modificarRepuestoImpresora(String cd_repuesto) {
+        Repuestos repuesto;
         Conexion.conectar();
-        String sql = "update repuestos set CANTIDAD = ? WHERE CD_REPUESTO= ?";
-        
+        String sql = "update repuestos set CANTIDAD=? where CD_REPUESTO=?";
+
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
             ps.setInt(1, cantidad);
-            ps.setString(2, ref);
+            ps.setString(2, cd_repuesto);
             ps.executeUpdate();
             ps.close();
             Conexion.desconectar();
-            return  true;
+            
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Repuestos.class.getName()).log(Level.SEVERE, null, ex);
+        return false;
+        }
+    }
+     
+    public boolean modificarRepuesto(String ref) {
+        Conexion.conectar();
+        String sql = "update repuestos set CD_REPUESTO=?, MARCA=?, COLOR=?, CANTIDAD = ? WHERE CD_REPUESTO= ?";
+
+        try {
+            PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
+            ps.setString(1, cd_repuesto);
+            ps.setString(2, marca);
+            ps.setString(3, color);
+            ps.setInt(4, cantidad);
+            ps.setString(5, ref);
+            ps.executeUpdate();
+            ps.close();
+            Conexion.desconectar();
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(Repuestos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return true;
     }
-    
-    public boolean altaRepuesto(){
+
+    public boolean altaRepuesto() {
         Conexion.conectar();
         String sql = "insert into repuestos values (?,?,?,?)";
-        
+
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
             ps.setString(1, cd_repuesto);
@@ -184,15 +208,15 @@ public class Repuestos {
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(Repuestos.class.getName()).log(Level.SEVERE, null, ex);
-             return false;
-        }    
+            return false;
+        }
     }
-    
-    public static boolean borrarRepuesto(String ref){
+
+    public static boolean borrarRepuesto(String ref) {
         Conexion.conectar();
-        
+
         String sql = "delete  from REPUESTOS where CD_REPUESTO=?";
-        
+
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
             ps.setString(1, ref);
@@ -203,10 +227,9 @@ public class Repuestos {
         } catch (SQLException ex) {
             Logger.getLogger(Repuestos.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }  
+        }
     }
-    
-    
+
     public static void autoCompletarImpresora(javax.swing.JTextField impresoraJTextField) {
 
         TextAutoCompleter equipoAutoComplet = new TextAutoCompleter(impresoraJTextField);

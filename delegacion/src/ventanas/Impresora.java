@@ -26,6 +26,7 @@ public class Impresora extends javax.swing.JFrame {
     public Impresora() {
         initComponents();
         listarImpresoras();
+        listarTodosLosRepuestos();
         autoCompletado();
     }
 
@@ -64,7 +65,7 @@ public class Impresora extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("IMPRESORAS");
 
         ubicacion.setPreferredSize(new java.awt.Dimension(150, 27));
@@ -112,8 +113,18 @@ public class Impresora extends javax.swing.JFrame {
             new String [] {
                 "REF. REPUESTO", "CANTIDAD"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable1.setColumnSelectionAllowed(true);
         jScrollPane2.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
@@ -316,7 +327,7 @@ public class Impresora extends javax.swing.JFrame {
         modelo.setText(impresoras.get(index).getModelo());
         descripcion.setText(impresoras.get(index).getDescripcion());
         jComboBox1.setSelectedItem(impresoras.get(index).getTipo());
-        listarRepuestos(ej.getText());
+        listarRepuestosImpresora(ej.getText());
 
     }//GEN-LAST:event_tImpresorasMouseClicked
 
@@ -349,7 +360,7 @@ public class Impresora extends javax.swing.JFrame {
         
        Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
 
-        if (i.editarImpresora(tImpresoras.getValueAt(index, 0).toString()) == true && r.modificarRepuesto(jTable1.getValueAt(index1, 0).toString())) {
+        if (i.editarImpresora(tImpresoras.getValueAt(index, 0).toString()) == true && r.modificarRepuestoImpresora(jTable1.getValueAt(index1, 0).toString())==true) {
             JOptionPane.showMessageDialog(null, "Registro Modificado");
             limpiar();
         }
@@ -432,7 +443,17 @@ public class Impresora extends javax.swing.JFrame {
         impresoras.add(impresora);
     }
 
-    private void listarRepuestos(String iRef) {
+    private void listarTodosLosRepuestos(){
+        repus = (DefaultTableModel) jTable1.getModel();
+            repuestos = Repuestos.todosLosRepuestos();
+            repuestos.forEach((r) -> {
+                repus.insertRow(repus.getRowCount(), new Object[]{
+                    r.getCd_repuesto(), r.getCantidad()
+                });
+            });
+    }
+    
+    private void listarRepuestosImpresora(String iRef) {
         repus = (DefaultTableModel) jTable1.getModel();
         repuestos = Repuestos.listarRepuestosImpresora(iRef);
         if (repus.getRowCount() > 0) {
@@ -444,14 +465,7 @@ public class Impresora extends javax.swing.JFrame {
                     r.getCd_repuesto(), r.getCantidad()
                 });
             });
-        } else {
-            repuestos.forEach((r) -> {
-                repus.insertRow(repus.getRowCount(), new Object[]{
-                    r.getCd_repuesto(), r.getCantidad()
-                });
-            });
-        }
-
+        } 
     }
 
     private void autoCompletado() {
@@ -471,6 +485,7 @@ public class Impresora extends javax.swing.JFrame {
         prints.setRowCount(0);
         repus.setRowCount(0);
         listarImpresoras();
+        listarTodosLosRepuestos();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
