@@ -8,8 +8,6 @@ package ventanas;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import modelo.Impresoras;
 import modelo.Repuestos;
 
@@ -20,7 +18,6 @@ import modelo.Repuestos;
 public class Impresora extends javax.swing.JFrame {
 
     private DefaultTableModel prints;
-    private TableRowSorter<TableModel> modeloOrdenado;
     private List<Impresoras> impresoras;
     private Impresoras impresora;
     private DefaultTableModel repus;
@@ -67,8 +64,6 @@ public class Impresora extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        eRegistros = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("IMPRESORAS");
@@ -88,16 +83,9 @@ public class Impresora extends javax.swing.JFrame {
                 "EJ", "MARCA", "MODELO"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Object.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -203,24 +191,11 @@ public class Impresora extends javax.swing.JFrame {
 
         jLabel4.setText("MODELO");
 
-        jLabel1.setText("Nº IMPRESORAS:");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(eRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(42, 42, 42)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(299, Short.MAX_VALUE))
+            .addGap(0, 525, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -237,7 +212,8 @@ public class Impresora extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel6)
                                         .addComponent(jLabel2)
-                                        .addComponent(jLabel3))
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel5))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel2Layout.createSequentialGroup()
@@ -247,6 +223,7 @@ public class Impresora extends javax.swing.JFrame {
                                             .addGap(18, 18, 18)
                                             .addComponent(modelo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(jLabel7)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(ubicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,16 +251,7 @@ public class Impresora extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(eRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(67, 67, 67))
+            .addGap(0, 482, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -303,7 +271,11 @@ public class Impresora extends javax.swing.JFrame {
                         .addComponent(marca, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
                         .addComponent(modelo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(49, 49, 49)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(18, 18, 18)
                     .addComponent(jLabel7)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -347,7 +319,6 @@ public class Impresora extends javax.swing.JFrame {
 
     private void tImpresorasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tImpresorasMouseClicked
         prints = (DefaultTableModel) tImpresoras.getModel();
-        repus = (DefaultTableModel) jTable1.getModel();
         int index = tImpresoras.getSelectedRow();
 
         ubicacion.setText(impresoras.get(index).getUbicacion());
@@ -369,32 +340,27 @@ public class Impresora extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       Impresoras i = new Impresoras(ej.getText());
-       if(JOptionPane.showConfirmDialog(null, "Esta seguro de borrar la impresora " + i.getEj() + "?", "Confirmar",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-           i.borrarImpresora(i.getEj());
-       }
-       
+        Impresoras.borrarImpresora(ej.getText());
         limpiar();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         prints = (DefaultTableModel) tImpresoras.getModel();
         repus = (DefaultTableModel) jTable1.getModel();
-
+        
         int index = tImpresoras.getSelectedRow();
         int index1 = jTable1.getSelectedRow();
-
+        
         Impresoras i = new Impresoras(ej.getText(),
                 marca.getText(),
                 modelo.getText(),
                 jComboBox1.getSelectedItem().toString(),
                 ubicacion.getText(),
                 descripcion.getText());
+        
+       Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
 
-        Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
-
-        if (i.editarImpresora(ej.getText()) == true && r.modificarRepuestoImpresora(jTable1.getValueAt(index1, 0).toString()) == true) {
+        if (i.editarImpresora(tImpresoras.getValueAt(index, 0).toString()) == true && r.modificarRepuestoImpresora(jTable1.getValueAt(index1, 0).toString())==true) {
             JOptionPane.showMessageDialog(null, "Registro Modificado");
             limpiar();
         }
@@ -407,29 +373,10 @@ public class Impresora extends javax.swing.JFrame {
                 jComboBox1.getSelectedItem().toString(),
                 ubicacion.getText().toUpperCase(),
                 descripcion.getText().toUpperCase());
-        String referencia = ej.getText().toUpperCase();
-        if (i.altaImpresora() != true) {
-            JOptionPane.showMessageDialog(null, "No se puede dar de alta la impresora:\nverifique los datos.");
-        } else {
 
-            while (JOptionPane.showConfirmDialog(null, "Vas añadir repuestos para esta impresora " + i.getEj() + "?", "Confirmar",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                String cd_repuesto = JOptionPane.showInputDialog(null, "Escriba referencia del repuesto:", "Asociar repuesto",
-                        JOptionPane.NO_OPTION);
-                if (cd_repuesto == null) {
-                    JOptionPane.showMessageDialog(null, "No se han añadido repuestos");
-                    limpiar();
-                } else {
-                    Impresoras i2 = new Impresoras(cd_repuesto.toUpperCase(), referencia);
-                    if (!i2.altaTienen().equalsIgnoreCase("ok")) {
-                        String mensaje = i2.altaTienen();
-                        JOptionPane.showMessageDialog(null, "no se ha podido añadir el repuesto\n" + mensaje);
-                    }
-                }
-            }
+        if (i.altaImpresora() == true) {
             JOptionPane.showMessageDialog(null, "Impresora dada de alta");
             limpiar();
-
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -477,17 +424,10 @@ public class Impresora extends javax.swing.JFrame {
         impresoras = Impresoras.listarImpresoras();
 
         impresoras.forEach((i) -> {
-
             prints.insertRow(prints.getRowCount(), new Object[]{
                 i.getEj(), i.getMarca(), i.getModelo()
-
             });
-            modeloOrdenado = new TableRowSorter<>(prints);
-            tImpresoras.setRowSorter(modeloOrdenado);
-            int t = impresoras.size();
-            eRegistros.setText(Integer.toString(t));
         });
-
     }
 
     private void recuperarImpresora(String eji) {
@@ -496,24 +436,23 @@ public class Impresora extends javax.swing.JFrame {
         impresora = Impresoras.recuperarImpresora(eji);
 
         prints.insertRow(prints.getRowCount(), new Object[]{
-            impresora.getEj(), impresora.getMarca(), impresora.getModelo()
+            impresora.getEj(), impresora.getMarca(), impresora.getMarca()
         });
+
         impresoras.clear();
         impresoras.add(impresora);
-        int t = impresoras.size();
-        eRegistros.setText(Integer.toString(t));
     }
 
-    private void listarTodosLosRepuestos() {
+    private void listarTodosLosRepuestos(){
         repus = (DefaultTableModel) jTable1.getModel();
-        repuestos = Repuestos.todosLosRepuestos();
-        repuestos.forEach((r) -> {
-            repus.insertRow(repus.getRowCount(), new Object[]{
-                r.getCd_repuesto(), r.getCantidad()
+            repuestos = Repuestos.todosLosRepuestos();
+            repuestos.forEach((r) -> {
+                repus.insertRow(repus.getRowCount(), new Object[]{
+                    r.getCd_repuesto(), r.getCantidad()
+                });
             });
-        });
     }
-
+    
     private void listarRepuestosImpresora(String iRef) {
         repus = (DefaultTableModel) jTable1.getModel();
         repuestos = Repuestos.listarRepuestosImpresora(iRef);
@@ -526,7 +465,7 @@ public class Impresora extends javax.swing.JFrame {
                     r.getCd_repuesto(), r.getCantidad()
                 });
             });
-        }
+        } 
     }
 
     private void autoCompletado() {
@@ -543,7 +482,6 @@ public class Impresora extends javax.swing.JFrame {
         marca.setText(t);
         modelo.setText(t);
         ubicacion.setText(t);
-
         jComboBox1.setSelectedIndex(0);
         prints.setRowCount(0);
         repus.setRowCount(0);
@@ -553,7 +491,6 @@ public class Impresora extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextArea descripcion;
-    private javax.swing.JLabel eRegistros;
     private javax.swing.JTextField ej;
     private javax.swing.JButton filtrar;
     private javax.swing.JTextField filtro;
@@ -562,7 +499,6 @@ public class Impresora extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
