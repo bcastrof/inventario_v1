@@ -212,7 +212,7 @@ public class Repuestos {
         }
     }
 
-    public static boolean borrarRepuesto(String ref) {
+    public  boolean borrarRepuesto(String ref) {
         Conexion.conectar();
 
         String sql = "delete  from REPUESTOS where CD_REPUESTO=?";

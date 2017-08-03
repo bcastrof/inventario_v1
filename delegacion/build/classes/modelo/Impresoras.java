@@ -26,6 +26,7 @@ public class Impresoras {
     private String tipo;
     private String ubicacion;
     private String descripcion;
+    private String cd_repuesto;
 
     public Impresoras() {
     }
@@ -37,6 +38,25 @@ public class Impresoras {
         this.tipo = tipo;
         this.ubicacion = ubicacion;
         this.descripcion = descripcion;
+    }
+
+    public Impresoras(String ej, String marca, String modelo, String tipo, String ubicacion, String descripcion, String cd_repuesto) {
+        this.ej = ej;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.tipo = tipo;
+        this.ubicacion = ubicacion;
+        this.descripcion = descripcion;
+        this.cd_repuesto = cd_repuesto;
+    }
+
+    public Impresoras(String cd_repuesto, String ej) {
+        this.cd_repuesto = cd_repuesto;
+        this.ej = ej;
+    }
+
+    public Impresoras(String ej) {
+        this.ej = ej;
     }
 
     public String getEj() {
@@ -85,6 +105,14 @@ public class Impresoras {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getCd_repuesto() {
+        return cd_repuesto;
+    }
+
+    public void setCd_repuesto(String cd_repuesto) {
+        this.cd_repuesto = cd_repuesto;
     }
 
     public static List<Impresoras> listarImpresoras() {
@@ -159,9 +187,10 @@ public class Impresoras {
     public boolean altaImpresora() {
         Conexion.conectar();
         String sql = "insert into impresoras values (?,?,?,?,?,?)";
-
+      
+        PreparedStatement ps;
         try {
-            PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
+            ps = Conexion.getConexion().prepareStatement(sql);
 
             ps.setString(1, ej);
             ps.setString(2, marca);
@@ -169,20 +198,48 @@ public class Impresoras {
             ps.setString(4, tipo);
             ps.setString(5, ubicacion);
             ps.setString(6, descripcion);
-            ps.execute();
+            ps.executeUpdate();
             ps.close();
-
+            
             Conexion.desconectar();
-
+            
             return true;
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se ha podido dar de alta el equipo\n" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "No se ha podido dar de alta la impresora\n" + ex.getMessage());
             return false;
         }
     }
+    
+    public String altaTienen() {
+          Conexion.conectar();
+          String sql2 = "insert into tienen values (?,?)";
+          String mensaje="OK";
+          PreparedStatement ps;
+          
+        try {
+            ps = Conexion.getConexion().prepareStatement(sql2);
+             ps.setString(1, cd_repuesto);
+            ps.setString(2, ej);
+            ps.execute();
+            ps.close();
+            
+            Conexion.desconectar();
+            return mensaje;
+        } catch (SQLException ex) {
+           Logger.getLogger(Impresoras.class.getName()).log(Level.SEVERE, null, ex); 
+          int error = ex.getErrorCode();
+          
+          if(error==2291){
+              mensaje="Referencia de repuesto incorrecta, por favor intente de nuevo";
+              return mensaje;
+          }else{
+              return ex.getMessage();
+          }        
+        }       
+    }
 
-    public static boolean borrarImpresora(String eji) {
+    public boolean borrarImpresora(String eji) {
         Conexion.conectar();
         String sql = "delete from impresoras where EJ_IMPRESORA=?";
 

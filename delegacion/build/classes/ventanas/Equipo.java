@@ -287,7 +287,7 @@ public class Equipo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        pcs = (DefaultTableModel) tPcs.getModel();
+/*        pcs = (DefaultTableModel) tPcs.getModel();
         int index = tPcs.getSelectedRow();
 
         if (Equipos.borrarEquipo(tPcs.getValueAt(index, 0).toString()) == true) {
@@ -295,7 +295,17 @@ public class Equipo extends javax.swing.JFrame {
             pcs.setRowCount(0);
             limpiar();
 
+        }*/ //por si quiero borrar usando los valores de la tabla
+        
+        Equipos e = new Equipos();
+        e.setEj(ej.getText());
+        
+        if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres dar de baja el equipo?\n"+e.getEj(), "BAJA", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION){
+            if(e.borrarEquipo(e.getEj())){
+                JOptionPane.showMessageDialog(null,"Equipo dado de baja.", "Baja", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
+        limpiar();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
