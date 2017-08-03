@@ -49,6 +49,11 @@ public class Funcionarios {
         this.impresora = impresora;
     }
 
+    public Funcionarios(String user) {
+        this.user = user;
+    }
+    
+
     public String getApellidos() {
         return apellidos;
     }
@@ -189,7 +194,7 @@ public class Funcionarios {
         }
     }
 
-    public static boolean borrarUsuario(String usuario) {
+    public  boolean borrarUsuario(String usuario) {
         Conexion.conectar();
         String sql = "delete from funcionarios where usuario=?";
 

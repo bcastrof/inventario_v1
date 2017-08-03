@@ -5,7 +5,6 @@
  */
 package ventanas;
 
-
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +19,6 @@ public class Funcionario extends javax.swing.JFrame {
     private DefaultTableModel users;
     private List<Funcionarios> usuarios;
     private Funcionarios user;
-   
 
     /**
      * Creates new form funcionarios
@@ -307,28 +305,27 @@ public class Funcionario extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        Funcionarios f = new Funcionarios(apellidos.getText().toUpperCase(), 
-                nombre.getText().toUpperCase(), 
+        Funcionarios f = new Funcionarios(apellidos.getText().toUpperCase(),
+                nombre.getText().toUpperCase(),
                 usuario.getText().toUpperCase(),
-                xlnet.getText().toUpperCase(), 
-                correo.getText().toUpperCase(), 
-                Integer.parseInt(planta.getText()), 
-                Integer.parseInt(telefono.getText()), 
-                equipo.getText().toUpperCase(), 
+                xlnet.getText().toUpperCase(),
+                correo.getText().toUpperCase(),
+                Integer.parseInt(planta.getText()),
+                Integer.parseInt(telefono.getText()),
+                equipo.getText().toUpperCase(),
                 impresora.getText().toUpperCase()
-                
         );
         if (f.altaUsuarios() == true) {
             JOptionPane.showMessageDialog(null, "Usuario dado de alta correctamente", "Alta Usuario", JOptionPane.INFORMATION_MESSAGE);
             limpiar();
-        }else{
-            
+        } else {
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-      listarUsuario(jFiltro.getText());
-    
+        listarUsuario(jFiltro.getText());
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -370,12 +367,19 @@ public class Funcionario extends javax.swing.JFrame {
     }//GEN-LAST:event_tUsuariosMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(Funcionarios.borrarUsuario(usuario.getText())==true){
-            JOptionPane.showMessageDialog(null, "Usuario borrado");
-            limpiar();
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+        modelo.Funcionarios f = new modelo.Funcionarios(usuario.getText());
 
+        if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres de dar de baja el usuario? \n" + f.getUser(), "Confirmar", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (f.borrarUsuario(f.getUser()) == true) {
+                JOptionPane.showConfirmDialog(null, "Usuario dado de baja.", "Baja", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                 JOptionPane.showConfirmDialog(null, "Baja usuario fallida.", "Atención", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+        limpiar();
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -449,21 +453,21 @@ public class Funcionario extends javax.swing.JFrame {
         users = (DefaultTableModel) tUsuarios.getModel();
         user = Funcionarios.recuperarUsuario(usuario);
         usuarios = Funcionarios.recuperarUsuarios2(usuario);
-        if (user!=null){
+        if (user != null) {
             users.insertRow(users.getRowCount(), new Object[]{
-            user.getNombre(), user.getApellidos(), user.getUser(), user.getEquipo(), user.getImpresora()
-        });
+                user.getNombre(), user.getApellidos(), user.getUser(), user.getEquipo(), user.getImpresora()
+            });
 
-        usuarios.clear();
-        usuarios.add(user);
-        }else{     
+            usuarios.clear();
+            usuarios.add(user);
+        } else {
             usuarios.forEach((u) -> {
                 users.insertRow(users.getRowCount(), new Object[]{
                     u.getNombre(), u.getApellidos(), u.getUser(), u.getEquipo(), u.getImpresora()
                 });
-            }); 
+            });
         }
-        
+
     }
 
     private void autoCompletado() {
@@ -505,4 +509,3 @@ public class Funcionario extends javax.swing.JFrame {
     private javax.swing.JTextField xlnet;
     // End of variables declaration//GEN-END:variables
 }
-

@@ -208,7 +208,7 @@ public class Equipos {
         }      
     }
     
-    public static boolean  borrarEquipo (String e){
+    public boolean  borrarEquipo (String e){
         Conexion.conectar();
         
         String sql = "delete from pcs where ej=?";

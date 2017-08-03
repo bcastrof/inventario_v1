@@ -369,12 +369,16 @@ public class Impresora extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       Impresoras i = new Impresoras(ej.getText());
-       if(JOptionPane.showConfirmDialog(null, "Esta seguro de borrar la impresora " + i.getEj() + "?", "Confirmar",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-           i.borrarImpresora(i.getEj());
-       }
-       
+        Impresoras i = new Impresoras(ej.getText());
+        //i.setEj(ej.getText()); si lo quiero borrar sin crear un constructor nuevo.
+        if (JOptionPane.showConfirmDialog(null, "Esta seguro de borrar la impresora " + i.getEj() + "?", "Confirmar",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            if (i.borrarImpresora(i.getEj()) == true) {
+                JOptionPane.showMessageDialog(null, "Impresora dada de baja.", "BAJA", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Baja impresora fallida.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+            }
+        }
         limpiar();
     }//GEN-LAST:event_jButton3ActionPerformed
 
