@@ -6,11 +6,13 @@
 package ventanas;
 
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Impresoras;
+import modelo.Render;
 import modelo.Repuestos;
 
 /**
@@ -85,14 +87,14 @@ public class Impresora extends javax.swing.JFrame {
 
             },
             new String [] {
-                "EJ", "MARCA", "MODELO"
+                "EJ", "MARCA", "MODELO", "e", "m"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, true, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -116,6 +118,7 @@ public class Impresora extends javax.swing.JFrame {
             tImpresoras.getColumnModel().getColumn(0).setResizable(false);
             tImpresoras.getColumnModel().getColumn(1).setResizable(false);
             tImpresoras.getColumnModel().getColumn(2).setResizable(false);
+            tImpresoras.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -357,6 +360,9 @@ public class Impresora extends javax.swing.JFrame {
     private void tImpresorasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tImpresorasMouseClicked
         prints = (DefaultTableModel) tImpresoras.getModel();
         repus = (DefaultTableModel) jTable1.getModel();
+
+        int column = tImpresoras.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / tImpresoras.getRowHeight();
         int index = tImpresoras.getSelectedRow();
 
         ubicacion.setText(impresoras.get(index).getUbicacion());
@@ -366,6 +372,35 @@ public class Impresora extends javax.swing.JFrame {
         descripcion.setText(impresoras.get(index).getDescripcion());
         jComboBox1.setSelectedItem(impresoras.get(index).getTipo());
         listarRepuestosImpresora(ej.getText());
+        
+        if (row < tImpresoras.getRowCount() && row >= 0 && column < tImpresoras.getColumnCount() && column >= 0) {
+            Object value = tImpresoras.getValueAt(row, column);
+            if (value instanceof JButton) {
+                ((JButton) value).doClick();
+                JButton boton = (JButton) value;
+
+                if (boton.getName().equals("m")) {
+                    System.out.println("Click en el boton modificar");
+                    //EVENTOS MODIFICAR
+                }
+                if (boton.getName().equals("e")) {
+                    Impresoras i = new Impresoras(ej.getText());
+                    //i.setEj(ej.getText()); si lo quiero borrar sin crear un constructor nuevo.
+                    if (JOptionPane.showConfirmDialog(null, "Esta seguro de borrar la impresora " + i.getEj() + "?", "Confirmar",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                        if (i.borrarImpresora(i.getEj()) == true) {
+                            JOptionPane.showMessageDialog(null, "Impresora dada de baja.", "BAJA", JOptionPane.INFORMATION_MESSAGE);
+                            limpiar();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Baja impresora fallida.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                   
+                    //EVENTOS ELIMINAR
+                }
+            }
+        }
+
 
     }//GEN-LAST:event_tImpresorasMouseClicked
 
@@ -384,7 +419,7 @@ public class Impresora extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
             if (i.borrarImpresora(i.getEj()) == true) {
                 JOptionPane.showMessageDialog(null, "Impresora dada de baja.", "BAJA", JOptionPane.INFORMATION_MESSAGE);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Baja impresora fallida.", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
             }
         }
@@ -406,10 +441,10 @@ public class Impresora extends javax.swing.JFrame {
                 descripcion.getText());
 
         //Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 0).toString()));
-          Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()),jTable1.getValueAt(index1, 0).toString());
-         // r.setCantidad(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
+        Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()), jTable1.getValueAt(index1, 0).toString());
+        // r.setCantidad(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
         //  r.setCd_repuesto(jTable1.getValueAt(index1, 0).toString());
-        if (i.editarImpresora(ej.getText())&&r.modificarRepuestoImpresora(r.getCd_repuesto()) == true) {
+        if (i.editarImpresora(ej.getText()) && r.modificarRepuestoImpresora(r.getCd_repuesto()) == true) {
             JOptionPane.showMessageDialog(null, "Registro Modificado");
             limpiar();
         }
@@ -490,11 +525,17 @@ public class Impresora extends javax.swing.JFrame {
     private void listarImpresoras() {
         prints = (DefaultTableModel) tImpresoras.getModel();
         impresoras = Impresoras.listarImpresoras();
+        tImpresoras.setDefaultRenderer(Object.class, new Render());
+
+        JButton btn1 = new JButton("Modificar");
+        btn1.setName("m");
+        JButton btn2 = new JButton("Eliminar");
+        btn2.setName("e");
 
         impresoras.forEach((i) -> {
 
             prints.insertRow(prints.getRowCount(), new Object[]{
-                i.getEj(), i.getMarca(), i.getModelo()
+                i.getEj(), i.getMarca(), i.getModelo(), btn1, btn2
 
             });
             modeloOrdenado = new TableRowSorter<>(prints);
@@ -522,7 +563,7 @@ public class Impresora extends javax.swing.JFrame {
     private void listarTodosLosRepuestos() {
         repus = (DefaultTableModel) jTable1.getModel();
         repuestos = Repuestos.todosLosRepuestos();
-       
+
         repuestos.forEach((r) -> {
             repus.insertRow(repus.getRowCount(), new Object[]{
                 r.getCd_repuesto(), r.getCantidad()
