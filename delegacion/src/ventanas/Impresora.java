@@ -85,14 +85,14 @@ public class Impresora extends javax.swing.JFrame {
 
             },
             new String [] {
-                "EJ", "MARCA", "MODELO", "boton"
+                "EJ", "MARCA", "MODELO"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, false
+                false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -116,7 +116,6 @@ public class Impresora extends javax.swing.JFrame {
             tImpresoras.getColumnModel().getColumn(0).setResizable(false);
             tImpresoras.getColumnModel().getColumn(1).setResizable(false);
             tImpresoras.getColumnModel().getColumn(2).setResizable(false);
-            tImpresoras.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -130,9 +129,16 @@ public class Impresora extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jTable1.setColumnSelectionAllowed(true);
@@ -399,9 +405,11 @@ public class Impresora extends javax.swing.JFrame {
                 ubicacion.getText(),
                 descripcion.getText());
 
-        Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
-
-        if (i.editarImpresora(ej.getText()) == true && r.modificarRepuestoImpresora(jTable1.getValueAt(index1, 0).toString()) == true) {
+        //Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 0).toString()));
+          Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()),jTable1.getValueAt(index1, 0).toString());
+         // r.setCantidad(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
+        //  r.setCd_repuesto(jTable1.getValueAt(index1, 0).toString());
+        if (i.editarImpresora(ej.getText())&&r.modificarRepuestoImpresora(r.getCd_repuesto()) == true) {
             JOptionPane.showMessageDialog(null, "Registro Modificado");
             limpiar();
         }

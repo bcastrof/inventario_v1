@@ -129,9 +129,16 @@ public class Impresora extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jTable1.setColumnSelectionAllowed(true);
@@ -210,17 +217,19 @@ public class Impresora extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(eRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(42, 42, 42)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(299, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(42, 42, 42)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(299, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -396,9 +405,11 @@ public class Impresora extends javax.swing.JFrame {
                 ubicacion.getText(),
                 descripcion.getText());
 
-        Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
-
-        if (i.editarImpresora(ej.getText()) == true && r.modificarRepuestoImpresora(jTable1.getValueAt(index1, 0).toString()) == true) {
+        //Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 0).toString()));
+          Repuestos r = new Repuestos(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()),jTable1.getValueAt(index1, 0).toString());
+         // r.setCantidad(Integer.parseInt(jTable1.getValueAt(index1, 1).toString()));
+        //  r.setCd_repuesto(jTable1.getValueAt(index1, 0).toString());
+        if (i.editarImpresora(ej.getText())&&r.modificarRepuestoImpresora(r.getCd_repuesto()) == true) {
             JOptionPane.showMessageDialog(null, "Registro Modificado");
             limpiar();
         }
@@ -511,6 +522,7 @@ public class Impresora extends javax.swing.JFrame {
     private void listarTodosLosRepuestos() {
         repus = (DefaultTableModel) jTable1.getModel();
         repuestos = Repuestos.todosLosRepuestos();
+       
         repuestos.forEach((r) -> {
             repus.insertRow(repus.getRowCount(), new Object[]{
                 r.getCd_repuesto(), r.getCantidad()

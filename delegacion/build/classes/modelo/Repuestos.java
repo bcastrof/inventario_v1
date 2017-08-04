@@ -32,8 +32,9 @@ public class Repuestos {
     public Repuestos() {
     }
 
-    public Repuestos(int cantidad) {
+    public Repuestos(int cantidad, String cd_repuesto) {
         this.cantidad = cantidad;
+        this.cd_repuesto=cd_repuesto;
     }
 
     public Repuestos(String cd_repuesto, String marca, String color, int cantidad) {
@@ -153,7 +154,7 @@ public class Repuestos {
      public boolean modificarRepuestoImpresora(String cd_repuesto) {
         Repuestos repuesto;
         Conexion.conectar();
-        String sql = "update repuestos set CANTIDAD=? where CD_REPUESTO=?";
+        String sql = "update repuesto set CANTIDAD=? where CD_REPUESTO=?";
 
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
@@ -172,7 +173,7 @@ public class Repuestos {
      
     public boolean modificarRepuesto(String ref) {
         Conexion.conectar();
-        String sql = "update repuestos set CD_REPUESTO=?, MARCA=?, COLOR=?, CANTIDAD = ? WHERE CD_REPUESTO= ?";
+        String sql = "update repuesto set CD_REPUESTO=?, MARCA=?, COLOR=?, CANTIDAD = ? WHERE CD_REPUESTO= ?";
 
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
@@ -194,7 +195,7 @@ public class Repuestos {
 
     public boolean altaRepuesto() {
         Conexion.conectar();
-        String sql = "insert into repuestos values (?,?,?,?)";
+        String sql = "insert into repuesto values (?,?,?,?)";
 
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
@@ -215,7 +216,7 @@ public class Repuestos {
     public  boolean borrarRepuesto(String ref) {
         Conexion.conectar();
 
-        String sql = "delete  from REPUESTOS where CD_REPUESTO=?";
+        String sql = "delete  from REPUESTO where CD_REPUESTO=?";
 
         try {
             PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
