@@ -7,12 +7,13 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<queryString language="SQL">
+	<queryString>
 		<![CDATA[select p.CD_REPUESTO as referencia, p.fecha, t.EJ_IMPRESORA as impresora from pedidos p
 join tienen t 
 on t.CD_REPUESTO=p.CD_REPUESTO
 join impresoras i
-on i.EJ_IMPRESORA=t.EJ_IMPRESORA]]>
+on i.EJ_IMPRESORA=t.EJ_IMPRESORA
+where p.cd_repuesto != 'SP075']]>
 	</queryString>
 	<field name="REFERENCIA" class="java.lang.String"/>
 	<field name="FECHA" class="java.sql.Timestamp"/>
