@@ -52,7 +52,6 @@ public class Funcionarios {
     public Funcionarios(String user) {
         this.user = user;
     }
-    
 
     public String getApellidos() {
         return apellidos;
@@ -194,7 +193,7 @@ public class Funcionarios {
         }
     }
 
-    public  boolean borrarUsuario(String usuario) {
+    public boolean borrarUsuario(String usuario) {
         Conexion.conectar();
         String sql = "delete from funcionarios where usuario=?";
 
@@ -391,26 +390,32 @@ public class Funcionarios {
     public static void autoCompletarUsuario(javax.swing.JTextField usuarioJTextField) {
 
         TextAutoCompleter equipoAutoComplet = new TextAutoCompleter(usuarioJTextField);
-
+        
+        
+        Funcionarios f = new Funcionarios();
+        Funcionarios n;
         Conexion.conectar();
 
-        // Statement st;
         CallableStatement cs;
         ResultSet rs;
 
         try {
-            // st = (Statement) Conexion.getConexion().createStatement();
+
             cs = (CallableStatement) Conexion.getConexion().prepareCall("call recuperarUsuariosSd (?)");
 
             cs.registerOutParameter(1, OracleTypes.CURSOR);
             cs.execute();
-            // rs=st.executeQuery("select ej from pcs");
+
             rs = (ResultSet) cs.getObject(1);
             while (rs.next()) {
-
-                equipoAutoComplet.addItem(rs.getString("USUARIO"));
-
+                //equipoAutoComplet.addItem(rs.getString("USUARIO"));
+                f.setApellidos(rs.getString("APELLIDOS"));
+                f.setNombre(rs.getString("NOMBRE"));
+                
+                equipoAutoComplet.addItem(f.getNombre().concat(" ").concat(f.getApellidos()));
+            
             }
+              
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se ha encontrado el usuario: " + ex.getMessage());

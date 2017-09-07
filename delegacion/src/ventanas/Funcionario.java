@@ -25,7 +25,7 @@ public class Funcionario extends javax.swing.JFrame {
      */
     public Funcionario() {
         initComponents();
-        autoCompletado();
+       autoCompletado();
         listarUsuarios();
     }
 
@@ -145,7 +145,7 @@ public class Funcionario extends javax.swing.JFrame {
             tUsuarios.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jLabel11.setText("USUARIO");
+        jLabel11.setText("NOMBRE");
 
         jButton4.setText("FILTRAR");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -324,6 +324,21 @@ public class Funcionario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        String nombre = jFiltro.getText();
+        
+          String [] n = nombre.split(" ");
+    
+          int i = 0;
+          
+          while (i<n.length && !n.equals(" ")) {
+              System.out.println(n[i]);
+              i++;
+            
+        }
+  
+          //lo que tengo que hacer es pasar como parametros la posicion uno, dos  y tres del array como parametro de busqueda en el procidimento.
+        
         listarUsuario(jFiltro.getText());
 
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -335,15 +350,15 @@ public class Funcionario extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         users = (DefaultTableModel) tUsuarios.getModel();
         int index = tUsuarios.getSelectedRow();
-        Funcionarios f = new Funcionarios(apellidos.getText(),
-                nombre.getText(),
-                usuario.getText(),
-                xlnet.getText(),
-                correo.getText(),
+        Funcionarios f = new Funcionarios(apellidos.getText().toUpperCase(),
+                nombre.getText().toUpperCase(),
+                usuario.getText().toUpperCase(),
+                xlnet.getText().toUpperCase(),
+                correo.getText().toUpperCase(),
                 Integer.parseInt(planta.getText()),
                 Integer.parseInt(telefono.getText()),
-                equipo.getText(),
-                impresora.getText());
+                equipo.getText().toUpperCase(),
+                impresora.getText().toUpperCase());
 
         if (f.modificarUsuario(tUsuarios.getValueAt(index, 2).toString()) == true) {
             JOptionPane.showMessageDialog(null, "Usuario modificado");
