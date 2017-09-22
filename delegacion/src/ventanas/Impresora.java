@@ -94,7 +94,7 @@ public class Impresora extends javax.swing.JFrame {
                 java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, true, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -118,7 +118,6 @@ public class Impresora extends javax.swing.JFrame {
             tImpresoras.getColumnModel().getColumn(0).setResizable(false);
             tImpresoras.getColumnModel().getColumn(1).setResizable(false);
             tImpresoras.getColumnModel().getColumn(2).setResizable(false);
-            tImpresoras.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -529,13 +528,15 @@ public class Impresora extends javax.swing.JFrame {
 
         JButton btn1 = new JButton("Modificar");
         btn1.setName("m");
-        JButton btn2 = new JButton("Eliminar");
+        JButton btn2 = new JButton();
         btn2.setName("e");
-
+        btn2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.white));
+        btn2.setToolTipText("ALTA");
+        btn2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Save-icon.png")));
         impresoras.forEach((i) -> {
 
             prints.insertRow(prints.getRowCount(), new Object[]{
-                i.getEj(), i.getMarca(), i.getModelo(), btn1, btn2
+                i.getEj(), i.getMarca(), i.getModelo(), btn1,btn2
 
             });
             modeloOrdenado = new TableRowSorter<>(prints);
